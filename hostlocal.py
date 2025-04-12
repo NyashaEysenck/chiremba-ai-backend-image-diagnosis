@@ -26,7 +26,10 @@ app = FastAPI()
 # Enable CORS middleware with specific configuration for the frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:5174", "http://127.0.0.1:5174", "http://192.168.1.43:5173", "http://192.168.1.43:5174", "http://localhost:4173", "https://chiremba-ai-frontend-production.up.railway.app"],  # Frontend URLs
+    allow_origins=[
+        "http://localhost:5173",
+        "https://chiremba-ai-frontend-production.up.railway.app"
+    ],
     allow_credentials=True,
     allow_methods=["*"],  # Allow all methods
     allow_headers=["*"],  # Allow all headers
