@@ -712,9 +712,12 @@ async def lungcancer_detection(file: UploadFile = File(...)):
 if __name__ == "__main__":
     import uvicorn
     
-    # Get host and port from environment variables
-    host = os.environ.get("FASTAPI_HOST", "127.0.0.1")
-    port = int(os.environ.get("FASTAPI_PORT", 8000))
+    # Production defaults - ensure accessibility
+    is_production = os.environ.get('ENVIRONMENT') == 'production'
+    
+    # Configure host/port based on environment
+    host = '0.0.0.0' if is_production else os.environ.get("FASTAPI_HOST", "127.0.0.1")
+    port = 8000 if is_production else int(os.environ.get("FASTAPI_PORT", 8000))
     
     print(f"Starting AI Image Analysis server on http://{host}:{port}")
     print("Using lazy loading for models - they will be loaded on first request")
