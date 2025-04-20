@@ -713,15 +713,13 @@ async def lungcancer_detection(file: UploadFile = File(...)):
         return JSONResponse(status_code=500, content={"detail": str(e)})
 
 if __name__ == "__main__":
+    
     import uvicorn
-    
-    # Production defaults - ensure accessibility
-    is_production = os.environ.get('ENVIRONMENT') == 'production'
-    
-    # Configure host/port based on environment
-    host = '0.0.0.0' if is_production else os.environ.get("FASTAPI_HOST", "127.0.0.1")
-    port = 8000 if is_production else int(os.environ.get("FASTAPI_PORT", 8000))
-    
-    print(f"Starting AI Image Analysis server on http://{host}:{port}")
-    print("Using lazy loading for models - they will be loaded on first request")
+    import os
+
+    # Cloud Run expects the app to listen on this port
+    port = int(os.environ.get("PORT", 8080))  # ✔ uses Cloud Run's PORT variable
+    host = "0.0.0.0"  # Always for cloud deployment
+
+    print(f"Starting FastAPI server at http://{host}:{port}")
     uvicorn.run(app, host=host, port=port)
