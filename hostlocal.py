@@ -28,7 +28,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
-        "https://chiremba-ai-frontend-production.up.railway.app"
+        "https://chiremba-ai-frontend-production.up.railway.app",
+        "https://chiremba-full-stack-160376271578.us-central1.run.app"
     ],
     allow_credentials=True,
     allow_methods=["*"],  # Allow all methods
