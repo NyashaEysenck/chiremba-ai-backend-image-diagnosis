@@ -33,21 +33,31 @@ app.include_router(braintumor_router)
 app.include_router(skindisease_router)
 app.include_router(lungcancer_router)
 
+# Simple test endpoint
 @app.get("/")
 async def root():
     return {"message": "AI Image Analysis API is running", "status": "ok"}
 
-# Test endpoint with proper file upload handling
+# Test endpoint for connectivity
 @app.post("/test")
-async def test_endpoint(file: UploadFile = File(None)):
-    if file:
-        return {
+async def test_endpoint(file: UploadFile = File(...)):
+    try:
+        # Just return a success message without model inference
+        return JSONResponse(content={
             "predicted_class": "test_success",
             "confidence": 1.0,
-            "message": "File received successfully",
-            "filename": file.filename
-        }
-    return {"message": "No file received"}
+            "message": "File received successfully: " + file.filename
+        })
+    except Exception as e:
+        logger.error(f"Error in test endpoint: {str(e)}")
+        return JSONResponse(status_code=500, content={"detail": str(e)})
+
+@app.middleware("http")
+async def log_requests(request, call_next):
+    logger.info(f"Request: {request.method} {request.url}")
+    response = await call_next(request)
+    logger.info(f"Response: {response.status_code}")
+    return response
 
 if __name__ == "__main__":
     import uvicorn
