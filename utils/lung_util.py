@@ -7,7 +7,7 @@ import os
 import cv2
 import matplotlib
 # Force matplotlib to use TkAgg backend for display
-matplotlib.use('TkAgg')
+matplotlib.use('Agg')
 
 # Import the Gemini interpretation module
 try:
