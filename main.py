@@ -4,6 +4,12 @@ from endpoints.pneumonia import router as pneumonia_router
 from endpoints.braintumor import router as braintumor_router
 from endpoints.skindisease import router as skindisease_router
 from endpoints.lungcancer import router as lungcancer_router
+import logging
+from fastapi.responses import JSONResponse
+
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("uvicorn")
 
 app = FastAPI()
 
