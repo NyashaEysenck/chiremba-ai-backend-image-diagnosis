@@ -7,7 +7,6 @@ from core.responses import PredictionResponse
 import numpy as np
 from PIL import Image
 import io
-from tensorflow.keras.models import load_model as keras_load_model
 import tensorflow as tf
 
 logger = logging.getLogger("uvicorn")
@@ -27,7 +26,7 @@ async def skindisease_classification(file: UploadFile = File(...)):
     try:
         logger.info(f"Received skin disease classification request: {file.filename}")
         if skinalyze_model is None:
-            skinalyze_model = keras_load_model("SkinNet-23M.h5")
+            skinalyze_model = load_model("SkinNet-23M.h5")
         image_data = file.file.read()
         image = Image.open(io.BytesIO(image_data))
         if image.mode != 'RGB':
